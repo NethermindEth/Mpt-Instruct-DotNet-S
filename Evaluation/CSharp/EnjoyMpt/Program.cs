@@ -39,7 +39,3 @@ class Request {
         }
     }
 }
-// TODO: Alignment
-// API to example
-// Idea to API
-// Interface to implementation

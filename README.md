@@ -1,10 +1,16 @@
 # Mpt-Instruct-DotNet-S
-This repository hosts examples of (`Nethermind/Mpt-Instruct-DotNet-S`)[https://huggingface.co/Nethermind/Mpt-Instruct-DotNet-S] usage and training procedures.
+This repository hosts examples of [`Nethermind/Mpt-Instruct-DotNet-S`](https://huggingface.co/Nethermind/Mpt-Instruct-DotNet-S) usage and training procedures.
 
 ## Use on CPU in .Net
-We created a GGML wrapper for MPT GGML codes and provided it in this repository. Quantised weights can be automatically downloaded from (`Nethermind/Mpt-Instruct-DotNet-S`)[https://huggingface.co/Nethermind/Mpt-Instruct-DotNet-S]. We provide three flavours:
- - f15 - for best results, requires > 14GB of free RAM, slow
- - q8 - for results with lower quality yet generated faster, requires> 7.5GB of free RAM
+We created a GGML wrapper for MPT GGML codes and provided it in this repository.
+It is built for:
+ - Windows-x64
+ - Linux-x64
+ - Mac-Arm (M1 and later, to run right-click on libmpt-library.dylib to open to allow unsigned binary)
+
+Quantised weights can be automatically downloaded from [`Nethermind/Mpt-Instruct-DotNet-S`](https://huggingface.co/Nethermind/Mpt-Instruct-DotNet-S). We provide three flavours:
+ - f15 - for best results, requires > 14GB of free RAM, slow  (in theory, in reality, just runs slower when there is not enough ram)
+ - q8 - for results with lower quality yet generated faster, requires > 7.5GB of free RAM (in theory, in reality, just runs slower when there is not enough ram)
  - q5 - for results with even lower quality yet generated in the least amount of time, requires> 4.5GB of free RAM
 
  Use:

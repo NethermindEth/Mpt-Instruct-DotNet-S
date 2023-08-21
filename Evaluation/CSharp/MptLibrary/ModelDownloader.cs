@@ -4,13 +4,11 @@ namespace MptLibrary;
 
 public class ModelDownloader
 {
-    private const long GB = 1024 * 1024 * 1024;
     private const string ModelsDirectory = "./models/";
 
     // Download model into "./models/" or return existing one
     // Use "f16", "q8", "q5" to download a Nethermind/Mpt-Instruct-DotNet-S MPT-7B-Instruction based model, pretrained and GGML quantised 
     // Pass in your URL to download any other MPT GGML Quantised model
-    // Keep emplty to download a model that is best suted for your RAM capacity
     public async Task<string> DownloadModel(string option = null, Action<int> progressAction = null)
     {
         string url = DetermineModelUrl(option);
@@ -86,20 +84,10 @@ public class ModelDownloader
             return option;
         }
 
-        long freeMemory = GetAvailableRAM();
-
-        if (option == "f16" || freeMemory > 14 * GB)
+        if (option == "f16" )
             return "https://huggingface.co/Nethermind/Mpt-Instruct-DotNet-S/resolve/main/ggml-model-f16.bin";
-        if (option == "q8" || freeMemory > 7.2 * GB)
+        if (option == "q8" )
             return "https://huggingface.co/Nethermind/Mpt-Instruct-DotNet-S/resolve/main/ggml-model-q8_0.bin";
-        //if (option == "q5" || freeMemory > 4.6 * GB)
         return "https://huggingface.co/Nethermind/Mpt-Instruct-DotNet-S/resolve/main/ggml-model-q5_0.bin";
-    }
-
-    private long GetAvailableRAM()
-    {
-        var info = new PerformanceCounter("Memory", "Available Bytes");
-        long freeMemory = Convert.ToInt64(info.NextValue());
-        return freeMemory;
     }
 }
