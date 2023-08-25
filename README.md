@@ -9,22 +9,21 @@ It is built for:
  - Mac-Arm (M1 and later, to run right-click on libmpt-library.dylib to open to allow unsigned binary)
 
 Quantised weights can be automatically downloaded from [`Nethermind/Mpt-Instruct-DotNet-S`](https://huggingface.co/Nethermind/Mpt-Instruct-DotNet-S). We provide three flavours:
- - f15 - for best results, requires > 14GB of free RAM, slow  (in theory, in reality, just runs slower when there is not enough ram)
+ - f16 - for best results, requires > 14GB of free RAM, slow  (in theory, in reality, just runs slower when there is not enough ram)
  - q8 - for results with lower quality yet generated faster, requires > 7.5GB of free RAM (in theory, in reality, just runs slower when there is not enough ram)
  - q5 - for results with even lower quality yet generated in the least amount of time, requires> 4.5GB of free RAM
 
  Use:
 ```csharp
 var downloader = new ModelDownloader();
-            var path = await downloader.DownloadModel("q8"); // you also can use f16 (eats 14 GB of RAM), q5 (eats 4 GB)
-            var mpt = new MptConsole(new mpt_params()
-            {
-                model = path,
-                n_predict = 512,
-                n_ctx = 1024,
-                n_threads = 16
-            });
-            var result = mpt.Process(@"You are an experienced .Net C# developer. Below is an instruction that describes a task. Write a response that completes the request providing detailed explanations with code examples.
+var path = await downloader.DownloadModel("q8"); // you also can use f16 (eats 14 GB of RAM), q5 (eats 4 GB)
+var mpt = new MptConsole(new mpt_params() {
+	model = path,
+	n_predict = 512,
+	n_ctx = 1024,
+	// n_threads = 16
+});
+var result = mpt.Process(@"You are an experienced .Net C# developer. Below is an instruction that describes a task. Write a response that completes the request providing detailed explanations with code examples.
 ### Instruction:
 interface IRobot {
     void Take(string what);
@@ -90,7 +89,7 @@ PROMPT_FOR_GENERATION_FORMAT = """{system}
 def give_answer(instruction="Create a loop over [0, 6, 7 , 77] that prints its contentrs", system="You are an experienced .Net C# developer. Below is an instruction that describes a task. Write a response that completes the request providing detailed explanations with code examples.", ):
     question = PROMPT_FOR_GENERATION_FORMAT.format(system=system, instruction=instruction)
     input_tokens = tokenizer.encode(question ,return_tensors='pt')               
-	model.generate(input_tokens.to(device), max_new_tokens=min(512, 1024 - input_tokens.shape[1]), do_sample=False, top_k=1, top_p=0.95)
+    model.generate(input_tokens.to(device), max_new_tokens=min(512, 1024 - input_tokens.shape[1]), do_sample=False, top_k=1, top_p=0.95)
     outputs = output_loop(tokenized_question)
     answer = tokenizer.batch_decode(outputs, skip_special_tokens=True)
     print(answer[0])
