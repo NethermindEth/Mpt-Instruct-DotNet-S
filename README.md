@@ -1,6 +1,9 @@
 # Mpt-Instruct-DotNet-S
 This repository hosts examples of [`Nethermind/Mpt-Instruct-DotNet-S`](https://huggingface.co/Nethermind/Mpt-Instruct-DotNet-S) usage and training procedures.
 
+![nm-llm3 1](https://github.com/NethermindEth/Mpt-Instruct-DotNet-S/assets/2915361/e9d87ccd-ffa0-456c-9523-aca193cab867)
+
+
 ## Use on CPU in .Net
 We created a GGML wrapper for MPT GGML codes and provided it in this repository.
 It is built for:
