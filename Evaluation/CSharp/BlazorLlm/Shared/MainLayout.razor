@@ -1,0 +1,96 @@
+@using BlazorLlm.Services
+@inherits LayoutComponentBase
+@inject CodeService _codeService
+
+<PageTitle>Blazor Llm UI</PageTitle>
+
+<style>
+    .modal-overlay {
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background-color: rgba(0, 0, 0, 0.5); /* Black with 50% opacity */
+        z-index: 1040; /* Just behind the modal */
+    }
+</style>
+
+<div class="page">
+    <main>
+        <div class="top-row px-4">
+            <div class="modal-overlay modal fade @(IsModalVisible ? "show d-block" : "" )">
+                <div class="modal-dialog">
+                    <div class="modal-content">
+                        <!-- Modal Header -->
+                        <div class="modal-header">
+                            <h4 class="modal-title">Edit System Prompt </h4>
+                            <button type="button" class="close" @onclick="HideModal" data-dismiss="modal">&times;</button>
+                        </div>
+
+                        <!-- Modal body -->
+                        <div class="modal-body">                               
+                            <div class="border p-2 mb-2">
+                                <StandaloneCodeEditor Id="system" @ref="SystemPromptEditorReference" ConstructionOptions="SystemPromptEditorConstructionOptions" OnKeyUp="OnSystemPromptChanged"></StandaloneCodeEditor>
+                            </div>
+                        </div>
+
+                        <!-- Modal footer -->
+                        <div class="modal-footer">
+                            <button class="btn btn-warning mt-2" @onclick="ResetSystemPrompt">Reset System Prompt</button> 
+                            <button type="button" class="btn btn-success" data-dismiss="modal" @onclick="HideModal">Hide</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <button class="btn btn-secondary" @onclick="ShowModal">System Settings</button>
+
+            <a href="https://github.com/NethermindEth/nethermind" target="_blank">NM LLM UI Demo</a>
+            
+
+        </div>
+
+        <article class="content px-4">
+            @Body
+        </article>
+    </main>
+</div>
+
+                            
+@code {
+    private bool IsModalVisible { get; set; } = false;
+
+    private void ShowModal()
+    {
+        IsModalVisible = true;
+    }
+
+    private void HideModal()
+    {
+        IsModalVisible = false;
+    }
+
+    StandaloneCodeEditor SystemPromptEditorReference;
+    private StandaloneEditorConstructionOptions SystemPromptEditorConstructionOptions(StandaloneCodeEditor arg)
+    {
+        return new StandaloneEditorConstructionOptions
+            {
+                AutomaticLayout = true,
+                Language = "markdown",
+                Value = _codeService.SystemPrompt,
+                WordWrap = "on"
+            };
+    }
+    private async Task ResetSystemPrompt()
+    {
+        _codeService.SystemPrompt = CodeService.DefaultSystemPrompt;
+        SystemPromptEditorReference.SetValue(_codeService.SystemPrompt);
+    }
+
+
+    private async void OnSystemPromptChanged(KeyboardEvent keyboardEvent)
+    {
+        _codeService.SystemPrompt = await SystemPromptEditorReference.GetValue();
+    }
+}

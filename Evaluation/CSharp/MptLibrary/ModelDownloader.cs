@@ -1,5 +1,3 @@
-using System.Diagnostics;
-
 namespace MptLibrary;
 
 public class ModelDownloader
@@ -84,9 +82,9 @@ public class ModelDownloader
             return option;
         }
 
-        if (option == "f16" )
+        if (option == "f16")
             return "https://huggingface.co/Nethermind/Mpt-Instruct-DotNet-S/resolve/main/ggml-model-f16.bin";
-        if (option == "q8" )
+        if (option == "q8")
             return "https://huggingface.co/Nethermind/Mpt-Instruct-DotNet-S/resolve/main/ggml-model-q8_0.bin";
         return "https://huggingface.co/Nethermind/Mpt-Instruct-DotNet-S/resolve/main/ggml-model-q5_0.bin";
     }
